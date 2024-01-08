@@ -1,8 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SYMBOL } from 'src/mock/mock';
-import { Currency } from 'src/repository/currency.entity';
+import { SYMBOL } from '../../mock/mock';
+import { Currency } from '../../repository/currency.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

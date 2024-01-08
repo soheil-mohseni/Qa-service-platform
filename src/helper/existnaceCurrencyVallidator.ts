@@ -13,15 +13,16 @@ import { SYMBOL } from 'src/mock/mock';
  */
 
 
-const existnaceCurrencyVallidator = async (...currency) => {
+const existnaceCurrencyVallidator = async (currency: string[]) => {
+   
   const finalPartialCurrencies = await Promise.all(
-    currency.map((data: string, index: number) => {
+    currency.filter((data: string, index: number) => {
       try {
-        if (!data) {
+        if (data === undefined || data === null) {
           console.log(data, 'data is null');
           return `you should send data of ${index}`;
-        } else if (!SYMBOL[data]) {
-          console.log(data, 'data is null');
+        } else if (!SYMBOL.includes(data)) {
+          console.log(data,SYMBOL.includes(data), 'data not found');
           return `${data} currency not found`;
         }
       } catch (error) {

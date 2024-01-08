@@ -26,11 +26,11 @@ export class CollectorService {
 
   async convertor(collector: CollectorDto): Promise<CollectorResponse> {
     const { asset_currency, converted_currency, amount } = collector;
-    try {
       const partialOfCurrencies: string[] = await existnaceCurrencyVallidator([
         asset_currency,
         converted_currency,
       ]);
+      
       if (partialOfCurrencies.length === 0) {
         const multiplicationValueOfCurrency =
           DOLLOR[asset_currency] * DOLLOR[converted_currency];
@@ -43,12 +43,9 @@ export class CollectorService {
           `currency not found : {${partialOfCurrencies.map(
             (data: string) => data,
           )}}`,
-          HttpStatus.FAILED_DEPENDENCY,
+          HttpStatus.BAD_GATEWAY,
         );
       }
-    } catch (error) {
-      console.log(error);
-      throw new HttpException('system was crashed', HttpStatus.BAD_GATEWAY);
-    }
+
   }
 }

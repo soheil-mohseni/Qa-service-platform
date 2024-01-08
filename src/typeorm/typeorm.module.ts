@@ -1,12 +1,13 @@
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Global()
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
+            imports:[ConfigModule],
             useFactory: (ConfigService: ConfigService) => ({
                 type: "postgres" ,
                 url: ConfigService.getOrThrow("DB_URI"),

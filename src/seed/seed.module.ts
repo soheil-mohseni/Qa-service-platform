@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
-import { InjectDataSource } from '@nestjs/typeorm';
+import { InjectDataSource, TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-
-import { CurrencySeedModule } from './currency/currency-seed.module';
-import { Typeorm } from 'src/typeorm/typeorm.module';
+import { Typeorm } from '../typeorm/typeorm.module';
 import { ConfigModule } from '@nestjs/config';
+import { Currency } from '../repository/currency.entity';
+import { CurrencySeedModule } from './currency/currency-seed.module';
 
 @Module({
   imports: [
-    ConfigModule,
     Typeorm,
+    // ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: '.env' }),
+    TypeOrmModule.forFeature([Currency]),
     CurrencySeedModule,
   ],
 })

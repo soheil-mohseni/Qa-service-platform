@@ -7,7 +7,7 @@ export class CollectorController {
 
   @Get('convertor')
   async getUserBalance(@Request() req, @Query() param) {
-    const { amount, asset_currency, converted_currency } = param;
+    const { amount, asset_currency, converted_currency } = param;    
     return this.collectorService.convertor({
       amount,
       asset_currency,

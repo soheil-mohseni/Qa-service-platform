@@ -13,7 +13,7 @@ export class Currency {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column({ type: 'string', })
+  @Column()
   currency: string;
 
   @CreateDateColumn()
