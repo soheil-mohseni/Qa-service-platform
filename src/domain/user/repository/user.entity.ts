@@ -2,7 +2,8 @@ import { IsString } from 'class-validator';
 import { IsPassword } from 'src/share/common/decorators';
 import { ParentEntity } from 'src/share/database/entities';
 import { Transform } from 'class-transformer';
-import { Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
+import { encryptString } from 'src/share/common/utils';
 
 @Entity('user')
 export class User extends ParentEntity {
@@ -16,4 +17,11 @@ export class User extends ParentEntity {
   @IsPassword()
   @Transform(({ value }) => value.trim())
   password: string;
+  
+  @BeforeInsert()
+  private async hashPassword(password?: string): Promise<string | void> {
+    const targetPassword = password || this.password;
+    const hashedString = await encryptString(targetPassword);
+    this.password = hashedString;
+  }
 }
