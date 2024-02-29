@@ -22,5 +22,5 @@ export class AdminService {
         token: `Bearer ${token}`,
       },
     };
-  }
+  } 
 }
