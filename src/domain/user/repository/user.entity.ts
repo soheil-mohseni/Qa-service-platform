@@ -22,13 +22,4 @@ export class User extends ParentEntity {
   @ManyToOne(() => Group, group => group.name)
   group: Group;
 
-
-  @BeforeInsert()
-  private async hashPassword(password: string): Promise<string | void> {
-    const targetPassword = password;
-    const hashedString = await encryptString(targetPassword);
-    this.password = hashedString;
-    console.log("zzzz",password);
-    
-  }
 }

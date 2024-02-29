@@ -10,7 +10,7 @@ import { AdminModule } from './domain/admin/admin.module';
     ConfigModule.forRoot({ envFilePath: '.env' }),
     UserModule,
     AdminModule,
-    Typeorm
+    Typeorm,
   ],
 })
 export class AppModule implements NestModule {
