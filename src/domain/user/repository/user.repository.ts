@@ -6,6 +6,7 @@ import { User } from './user.entity';
 import { ErrorMessages } from 'src/share/common/constants/errors.constant';
 import { encryptString } from 'src/share/common/utils';
 import { UserList, UserListResponse } from 'src/domain/admin/interface/user-list.interface';
+import { DeleteUser } from 'src/domain/admin/interface/delete-user.interface';
 
 @Injectable()
 export class UserRepository extends PostgresRepository<User> {
@@ -40,5 +41,13 @@ export class UserRepository extends PostgresRepository<User> {
       return { username: data.username, group: (data?.group?.name) ?? null   };
     });
     return usernameList;
+  }
+
+
+  async deleteUserByUserName(username:string): Promise<DeleteUser> {
+    
+    const result = await this.deleteByfield('username',username);
+
+    return { affected: result.affected };
   }
 }

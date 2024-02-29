@@ -50,5 +50,12 @@ export class AdminService {
     };
   }
 
+  async deleteUser(username): Promise<BaseResponse<boolean>> {
+    await this.userRepository.deleteUserByUserName(username);
+    return {
+      success: true,
+      data: true,
+    };
+  }
 
 }

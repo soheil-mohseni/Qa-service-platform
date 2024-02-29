@@ -1,3 +1,5 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { ErrorMessages } from 'src/share/common/constants/errors.constant';
 import {
     DeepPartial,
     FindManyOptions,
@@ -64,8 +66,17 @@ import {
   
     public async deleteByfield(field: string,value:any): Promise<{ affected: number }> {
       const data = await this.findOne(field,value)
-      const result = await this.repository.delete(data.id);
-      return { affected: result.affected };
+      console.log(field,value,data);
+      if (data.id) {
+        const result = await this.repository.delete(data.id);
+        return { affected: result.affected };
+      } else {
+        throw new HttpException(
+          ErrorMessages.USER_NOT_FOUND,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
     }
   
     public async findOne(

@@ -7,6 +7,8 @@ import {
   Body,
   HttpException,
   UseGuards,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { InitiateAdminDto } from './dto/initiate.dto';
@@ -15,6 +17,7 @@ import { RoleGuard } from 'src/share/common/guards/role.guard';
 import { Roles } from 'src/share/common/decorators/role';
 import { Role } from 'src/share/common/enums/role.enum';
 import { CreateUserDto } from './dto/createUser.dto';
+import { DeleteUserDto } from './dto/delete-user.dto';
 
 @Controller({ path: 'admin', version: '1' })
 export class AdminController {
@@ -24,6 +27,8 @@ export class AdminController {
   async createProduct(@Body() body: InitiateAdminDto) {
     return await this.adminService.createAdmin(body);
   }
+
+  /////////// USER crud //////////
 
   @Post('/user/create')
   @Roles(Role.ADMIN)
@@ -37,5 +42,12 @@ export class AdminController {
   @UseGuards(AuthGuard, RoleGuard)
   async userList() {
     return await this.adminService.userList();
+  }
+
+  @Delete('/user')
+  @UseGuards(AuthGuard, RoleGuard)
+  async deleteUser(@Query('username') username: DeleteUserDto) {
+    
+    return await this.adminService.deleteUser(username);
   }
 }
