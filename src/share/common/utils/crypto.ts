@@ -11,7 +11,6 @@ export async function encryptString(dataToHash: string): Promise<string>  {
       cipher.final(),
     ]);
     const base64Result: string = encryptedText.toString('base64');
-    console.log("i am encrypting",base64Result);
     
     return base64Result
 
