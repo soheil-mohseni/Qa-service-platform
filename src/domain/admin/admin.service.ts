@@ -4,21 +4,23 @@ import { UserRepository } from '../user/repository/user.repository';
 import { signAccessToken } from 'src/share/common/utils/jwt-generator';
 import { Role } from 'src/share/common/enums/role.enum';
 import { ErrorMessages } from 'src/share/common/constants/errors.constant';
+import { BaseResponse } from 'src/share/common/interface/baseResponse.interface';
+import { CreateAdmin } from './interface/create-admin.interface';
 
 @Injectable()
 export class AdminService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async createAdmin(body: initiateAdminDto): Promise<string> {
-    try {
-      const user = await this.userRepository.createAdmin(body);
-
-      return await signAccessToken(user, Role.ADMIN);
-    } catch (error) {
-      throw new HttpException(
-        ErrorMessages.INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+  async createAdmin(
+    body: initiateAdminDto,
+  ): Promise<BaseResponse<CreateAdmin>> {
+    const user = await this.userRepository.createAdmin(body);
+    const token = await signAccessToken(user, Role.ADMIN);
+    return {
+      success: true,
+      data: {
+        token: `Bearer ${token}`,
+      },
+    };
   }
 }

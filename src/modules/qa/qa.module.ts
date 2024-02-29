@@ -3,7 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { QaService } from "./qa.service";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([])] ,
+    imports: [] ,
     controllers: [],
     providers: [QaService],
   })

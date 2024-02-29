@@ -11,6 +11,8 @@ export async function encryptString(dataToHash: string): Promise<string>  {
       cipher.final(),
     ]);
     const base64Result: string = encryptedText.toString('base64');
+    console.log("i am encrypting",base64Result);
+    
     return base64Result
 
   }
@@ -23,7 +25,7 @@ export async function encryptString(dataToHash: string): Promise<string>  {
 
     const iv = Buffer.from([0x21, 0x54, 0xe1, 0xc5, 0x6b, 0xc5, 0x11, 0xef, 0x4e, 0x83, 0x85, 0x1a, 0x57, 0x2e, 0xd6, 0xc0]);
     const key = (await promisify(scrypt)(
-      process.env.REFERRAL_PASSWORD,
+      process.env.CRYPTOPASSWORD,
       process.env.ENC_SALT,
       32,
     )) as Buffer;

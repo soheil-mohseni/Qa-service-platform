@@ -3,7 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { TopicService } from "./topic.service";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([])] ,
+    imports: [] ,
     controllers: [],
     providers: [TopicService],
   })

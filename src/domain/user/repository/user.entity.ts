@@ -24,9 +24,11 @@ export class User extends ParentEntity {
 
 
   @BeforeInsert()
-  private async hashPassword(password?: string): Promise<string | void> {
-    const targetPassword = password || this.password;
+  private async hashPassword(password: string): Promise<string | void> {
+    const targetPassword = password;
     const hashedString = await encryptString(targetPassword);
     this.password = hashedString;
+    console.log("zzzz",password);
+    
   }
 }

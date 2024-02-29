@@ -3,7 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { SectionService } from "./section.service";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([])] ,
+    imports: [] ,
     controllers: [],
     providers: [SectionService],
   })

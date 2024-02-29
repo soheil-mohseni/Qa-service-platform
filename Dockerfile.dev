@@ -6,5 +6,5 @@ COPY pnpm-lock.yaml /app/
 RUN pnpm install
 COPY . . 
 RUN pnpm run build
-EXPOSE 3000
-CMD ["pnpm" , "run", "start:prod"]
+COPY . . 
+CMD ["pnpm" , "run", "start:dev"]
