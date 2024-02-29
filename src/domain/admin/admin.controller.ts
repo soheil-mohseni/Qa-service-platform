@@ -21,18 +21,21 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post('/create/admin')
-  async createProduct(
-    @Body() body: InitiateAdminDto,
-  ) {
+  async createProduct(@Body() body: InitiateAdminDto) {
     return await this.adminService.createAdmin(body);
   }
 
-  @Post('/create/user')
+  @Post('/user/create')
   @Roles(Role.ADMIN)
   @UseGuards(AuthGuard, RoleGuard)
-  async createUser(
-    @Body() body: CreateUserDto,
-  ) {
+  async createUser(@Body() body: CreateUserDto) {
     return await this.adminService.createUser(body);
+  }
+
+  @Get('/user/list')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async userList() {
+    return await this.adminService.userList();
   }
 }

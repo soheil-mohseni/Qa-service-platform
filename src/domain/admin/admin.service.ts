@@ -5,7 +5,9 @@ import { signAccessToken } from 'src/share/common/utils/jwt-generator';
 import { Role } from 'src/share/common/enums/role.enum';
 import { ErrorMessages } from 'src/share/common/constants/errors.constant';
 import { BaseResponse } from 'src/share/common/interface/baseResponse.interface';
-import { CreateAdmin } from './interface/create-admin.interface';
+import { CreateAdminResponse } from './interface/create-admin.interface';
+import { CreateUserResponse } from './interface/create-user.interface';
+import { UserListResponse } from './interface/user-list.interface';
 
 @Injectable()
 export class AdminService {
@@ -13,7 +15,7 @@ export class AdminService {
 
   async createAdmin(
     body: InitiateAdminDto,
-  ): Promise<BaseResponse<CreateAdmin>> {
+  ): Promise<BaseResponse<CreateAdminResponse>> {
     const user = await this.userRepository.createUser(body);
     const token = await signAccessToken(user, Role.ADMIN);
     return {
@@ -22,13 +24,13 @@ export class AdminService {
         token: `Bearer ${token}`,
       },
     };
-    
-  } 
+  }
 
+  /////////// USER crud //////////
 
   async createUser(
     body: InitiateAdminDto,
-  ): Promise<BaseResponse<CreateAdmin>> {
+  ): Promise<BaseResponse<CreateUserResponse>> {
     const user = await this.userRepository.createUser(body);
     const token = await signAccessToken(user, Role.USER);
     return {
@@ -37,6 +39,16 @@ export class AdminService {
         token: `Bearer ${token}`,
       },
     };
-    
-  } 
+  }
+  async userList(): Promise<BaseResponse<UserListResponse>> {
+    const users = await this.userRepository.listOfUser();
+    return {
+      success: true,
+      data: {
+        users,
+      },
+    };
+  }
+
+
 }
