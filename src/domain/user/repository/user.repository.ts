@@ -15,12 +15,15 @@ import {
   UpdateUserRequest,
 } from 'src/domain/admin/interface/user_crud/update-user.interface';
 import { CreateUserRequest } from 'src/domain/admin/interface/user_crud/create-user.interface';
+import { Group } from './group.entity';
+import { GroupRepository } from './group.repository';
 
 @Injectable()
 export class UserRepository extends PostgresRepository<User> {
   constructor(
     @InjectRepository(User)
     private readonly _repo: Repository<User>,
+    private readonly groupRepository: GroupRepository,
   ) {
     super(_repo);
   }
@@ -61,6 +64,13 @@ export class UserRepository extends PostgresRepository<User> {
     username,
     newData,
   }: UpdateUserRequest): Promise<UpdateUser> {
+    if (newData?.group?.name) {
+      const group = await this.groupRepository.findGroup('name', newData.group.name);
+      newData.group['id'] = newData.group['name'];
+      delete newData.group['name'];
+      newData.group['id'] = group;
+    }
+
     const result = await this.updateByfield('username', username, newData);
     return { affected: result.affected };
   }

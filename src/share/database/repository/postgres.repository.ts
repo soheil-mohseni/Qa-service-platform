@@ -70,7 +70,6 @@ export class PostgresRepository<
     value: any,
   ): Promise<{ affected: number }> {
     const data = await this.findOne(field, value);
-    console.log(field, value, data);
     if (data) {
       const result = await this.repository.delete(data.id);
       return { affected: result.affected };
@@ -114,9 +113,10 @@ export class PostgresRepository<
     data: QueryDeepPartialEntity<Entity>,
   ): Promise<{ affected: number }> {
 
-    const user = await this.findOne(column, value);
-    if (user) {
-      const result = await this.repository.update(user.id, data);
+    const dataResult = await this.findOne(column, value);
+    
+    if (dataResult) {
+      const result = await this.repository.update(dataResult.id, data);
       return { affected: result.affected };
     } else {
       throw new HttpException(

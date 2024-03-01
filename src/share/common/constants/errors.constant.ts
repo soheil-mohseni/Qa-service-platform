@@ -6,6 +6,8 @@ export enum ErrorMessages {
     INVALID_CODE = "verifiaction link is invalid" ,
     INVALID_CREDENTIAL = "Username or password is wrong , please try again",
     USERNAME_EXISTS = "This username already exists",
+    GROUP_EXISTS = "This username already exists",
+
     NAME_EXISTS = "This name already exists" ,
     NOT_FOUND = "Nothing found by data",
     UNAUTHORIZED= "Please login first ." ,

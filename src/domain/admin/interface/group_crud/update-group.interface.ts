@@ -6,5 +6,6 @@ export interface UpdateGroupRequest {
     name: string
     newData: {
         name?: string
+        
     }
 }
