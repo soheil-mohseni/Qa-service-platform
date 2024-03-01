@@ -1,3 +1,3 @@
 export interface CreateAdminResponse {
-    token: string  
+  token: string;
 }

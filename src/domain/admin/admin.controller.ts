@@ -17,12 +17,12 @@ import { AuthGuard } from 'src/share/common/guards/auth.guard';
 import { RoleGuard } from 'src/share/common/guards/role.guard';
 import { Roles } from 'src/share/common/decorators/role';
 import { Role } from 'src/share/common/enums/role.enum';
-import { CreateUserDto } from './dto/createUser.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
+import { CreateUserDto } from './dto/user_crud/createUser.dto';
+import { DeleteUserDto } from './dto/user_crud/delete-user.dto';
 import {
   UpdateUserDtoBody,
   UpdateUserDtoParams,
-} from './dto/update-user.interface';
+} from './dto/user_crud/update-user.dto';
 
 @Controller({ path: 'admin', version: '1' })
 export class AdminController {

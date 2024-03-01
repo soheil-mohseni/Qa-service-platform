@@ -5,9 +5,9 @@ import { signAccessToken } from 'src/share/common/utils/jwt-generator';
 import { Role } from 'src/share/common/enums/role.enum';
 import { ErrorMessages } from 'src/share/common/constants/errors.constant';
 import { BaseResponse } from 'src/share/common/interface/baseResponse.interface';
-import { CreateAdminResponse } from './interface/create-admin.interface';
-import { CreateUserResponse } from './interface/create-user.interface';
-import { UserListResponse } from './interface/user-list.interface';
+import { CreateUserResponse } from './interface/user_crud/create-user.interface';
+import { UserListResponse } from './interface/user_crud/user-list.interface';
+import { CreateAdminResponse } from './interface/initiate-admin.interface';
 
 @Injectable()
 export class AdminService {
@@ -52,7 +52,7 @@ export class AdminService {
   }
 
   async updateUser(username, newData): Promise<BaseResponse<boolean>> {
-    await this.userRepository.updateUserByUserName(username, newData);
+    await this.userRepository.updateUserByUserName({ username, newData });
     return {
       success: true,
       data: true,
@@ -81,5 +81,4 @@ export class AdminService {
       },
     };
   }
-
 }

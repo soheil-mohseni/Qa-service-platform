@@ -5,11 +5,16 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { ErrorMessages } from 'src/share/common/constants/errors.constant';
 import { encryptString } from 'src/share/common/utils';
+import { UserList } from 'src/domain/admin/interface/user_crud/user-list.interface';
 import {
-  UserList,
-  UserListResponse,
-} from 'src/domain/admin/interface/user-list.interface';
-import { DeleteUser } from 'src/domain/admin/interface/delete-user.interface';
+  DeleteUser,
+  DeleteUserRequest,
+} from 'src/domain/admin/interface/user_crud/delete-user.interface';
+import {
+  UpdateUser,
+  UpdateUserRequest,
+} from 'src/domain/admin/interface/user_crud/update-user.interface';
+import { CreateUserRequest } from 'src/domain/admin/interface/user_crud/create-user.interface';
 
 @Injectable()
 export class UserRepository extends PostgresRepository<User> {
@@ -20,7 +25,7 @@ export class UserRepository extends PostgresRepository<User> {
     super(_repo);
   }
 
-  async createUser(data: InitiateAdminRequest): Promise<User> {
+  async createUser(data: CreateUserRequest): Promise<User> {
     const { username, password } = data;
     const user = await this.findOne('username', username);
     if (user) {
@@ -46,13 +51,16 @@ export class UserRepository extends PostgresRepository<User> {
     return usernameList;
   }
 
-  async deleteUserByUserName(username: string): Promise<DeleteUser> {
+  async deleteUserByUserName(username: DeleteUserRequest): Promise<DeleteUser> {
     const result = await this.deleteByfield('username', username);
 
     return { affected: result.affected };
   }
 
-  async updateUserByUserName(username: string, newData): Promise<DeleteUser> {
+  async updateUserByUserName({
+    username,
+    newData,
+  }: UpdateUserRequest): Promise<UpdateUser> {
     const result = await this.updateByfield('username', username, newData);
     return { affected: result.affected };
   }
