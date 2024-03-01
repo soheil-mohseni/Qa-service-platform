@@ -98,4 +98,21 @@ export class AdminService {
       },
     };
   }
+
+  async updateGroup(name, newData): Promise<BaseResponse<boolean>> {
+    await this.groupRepository.updateGroupByName({ name, newData });
+    return {
+      success: true,
+      data: true,
+    };
+  }
+
+
+  async deleteGroup(name): Promise<BaseResponse<boolean>> {
+    await this.groupRepository.deleteGroupByName(name);
+    return {
+      success: true,
+      data: true,
+    };
+  }
 }

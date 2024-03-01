@@ -6,6 +6,8 @@ import { User } from './user.entity';
 import { ErrorMessages } from 'src/share/common/constants/errors.constant';
 import { Group } from './group.entity';
 import { CreateGroupRequest } from 'src/domain/admin/interface/group_crud/create-group.interface';
+import { DeleteGroup, DeleteGroupRequest } from 'src/domain/admin/interface/group_crud/delete-group.interface';
+import { UpdateGroup, UpdateGroupRequest } from 'src/domain/admin/interface/group_crud/update-group.interface';
 
 @Injectable()
 export class GroupRepository extends PostgresRepository<Group> {
@@ -35,14 +37,13 @@ export class GroupRepository extends PostgresRepository<Group> {
       return groups;
     }
 
-  //   async deleteUserByUserName(username: string): Promise<DeleteUser> {
-  //     const result = await this.deleteByfield('username', username);
+    async deleteGroupByName(name: DeleteGroupRequest): Promise<DeleteGroup> {
+      const result = await this.deleteByfield('name', name);
+      return { affected: result.affected };
+    }
 
-  //     return { affected: result.affected };
-  //   }
-
-  //   async updateUserByUserName(username: string, newData): Promise<DeleteUser> {
-  //     const result = await this.updateByfield('username', username, newData);
-  //     return { affected: result.affected };
-  //   }
+    async updateGroupByName({name, newData}:UpdateGroupRequest): Promise<UpdateGroup> {
+      const result = await this.updateByfield('name', name, newData);
+      return { affected: result.affected };
+    }
 }

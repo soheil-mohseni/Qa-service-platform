@@ -24,6 +24,7 @@ import {
   UpdateUserDtoParams,
 } from './dto/user_crud/update-user.dto';
 import { CreateGroupDto } from './dto/group_crud/create-group.dto';
+import { DeleteGroupDto } from './dto/group_crud/delete-group.dto';
 
 @Controller({ path: 'admin', version: '1' })
 export class AdminController {
@@ -58,22 +59,45 @@ export class AdminController {
   }
 
   @Patch('/user')
+  @Roles(Role.ADMIN)
   @UseGuards(AuthGuard, RoleGuard)
   async updateUser(
     @Query('username') username: UpdateUserDtoParams,
     @Body() body: UpdateUserDtoBody,
   ) {
-    return await this.adminService.updateUser(username,body);
+    return await this.adminService.updateUser(username, body);
   }
 
-    /////////// GROUP crud //////////
+  /////////// GROUP crud //////////
 
-    @Post('/group/create')
-    @Roles(Role.ADMIN)
-    @UseGuards(AuthGuard, RoleGuard)
-    async createGroup(@Body() body: CreateGroupDto) {
-      return await this.adminService.createGroup(body);
-    }
+  @Post('/group/create')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async createGroup(@Body() body: CreateGroupDto) {
+    return await this.adminService.createGroup(body);
+  }
 
+  @Get('/group/list')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async groupList() {
+    return await this.adminService.groupList();
+  }
 
+  @Patch('/group')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async updateGroup(
+    @Query('name') name: UpdateUserDtoParams,
+    @Body() body: UpdateUserDtoBody,
+  ) {
+    return await this.adminService.updateGroup(name, body);
+  }
+
+  @Delete('/group')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async deleteGroup(@Query('name') name: DeleteGroupDto) {
+    return await this.adminService.deleteGroup(name);
+  }
 }
