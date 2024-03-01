@@ -23,6 +23,7 @@ import {
   UpdateUserDtoBody,
   UpdateUserDtoParams,
 } from './dto/user_crud/update-user.dto';
+import { CreateGroupDto } from './dto/group_crud/create-group.dto';
 
 @Controller({ path: 'admin', version: '1' })
 export class AdminController {
@@ -64,4 +65,15 @@ export class AdminController {
   ) {
     return await this.adminService.updateUser(username,body);
   }
+
+    /////////// GROUP crud //////////
+
+    @Post('/group/create')
+    @Roles(Role.ADMIN)
+    @UseGuards(AuthGuard, RoleGuard)
+    async createGroup(@Body() body: CreateGroupDto) {
+      return await this.adminService.createGroup(body);
+    }
+
+
 }

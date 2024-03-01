@@ -8,10 +8,18 @@ import { BaseResponse } from 'src/share/common/interface/baseResponse.interface'
 import { CreateUserResponse } from './interface/user_crud/create-user.interface';
 import { UserListResponse } from './interface/user_crud/user-list.interface';
 import { CreateAdminResponse } from './interface/initiate-admin.interface';
+import { GroupRepository } from '../user/repository/group.repository';
+import { CreateGroupDto } from './dto/group_crud/create-group.dto';
+import { CreateGroupResponse } from './interface/group_crud/create-group.interface';
+import { GroupListResponse } from './interface/group_crud/group-list.interface';
+import { Group } from '../user/repository/group.entity';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly groupRepository: GroupRepository,
+  ) {}
 
   async createAdmin(
     body: InitiateAdminDto,
@@ -70,14 +78,23 @@ export class AdminService {
   /////////// GROUP crud //////////
 
   async createGroup(
-    body: InitiateAdminDto,
-  ): Promise<BaseResponse<CreateUserResponse>> {
-    const user = await this.userRepository.createUser(body);
-    const token = await signAccessToken(user, Role.USER);
+    body: CreateGroupDto,
+  ): Promise<BaseResponse<CreateGroupResponse>> {
+    await this.groupRepository.createGroup({ name: body.name });
     return {
       success: true,
       data: {
-        token: `Bearer ${token}`,
+        message: `group created`,
+      },
+    };
+  }
+
+  async groupList(): Promise<BaseResponse<GroupListResponse<Group>>> {
+    const group = await this.groupRepository.listOfGroup();
+    return {
+      success: true,
+      data: {
+        group,
       },
     };
   }
