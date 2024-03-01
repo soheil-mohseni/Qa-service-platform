@@ -40,6 +40,7 @@ export class AdminService {
       },
     };
   }
+
   async userList(): Promise<BaseResponse<UserListResponse>> {
     const users = await this.userRepository.listOfUser();
     return {
@@ -50,11 +51,34 @@ export class AdminService {
     };
   }
 
+  async updateUser(username, newData): Promise<BaseResponse<boolean>> {
+    await this.userRepository.updateUserByUserName(username, newData);
+    return {
+      success: true,
+      data: true,
+    };
+  }
+
   async deleteUser(username): Promise<BaseResponse<boolean>> {
     await this.userRepository.deleteUserByUserName(username);
     return {
       success: true,
       data: true,
+    };
+  }
+
+  /////////// GROUP crud //////////
+
+  async createGroup(
+    body: InitiateAdminDto,
+  ): Promise<BaseResponse<CreateUserResponse>> {
+    const user = await this.userRepository.createUser(body);
+    const token = await signAccessToken(user, Role.USER);
+    return {
+      success: true,
+      data: {
+        token: `Bearer ${token}`,
+      },
     };
   }
 

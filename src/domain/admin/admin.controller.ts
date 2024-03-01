@@ -9,6 +9,7 @@ import {
   UseGuards,
   Delete,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { InitiateAdminDto } from './dto/initiate.dto';
@@ -18,6 +19,10 @@ import { Roles } from 'src/share/common/decorators/role';
 import { Role } from 'src/share/common/enums/role.enum';
 import { CreateUserDto } from './dto/createUser.dto';
 import { DeleteUserDto } from './dto/delete-user.dto';
+import {
+  UpdateUserDtoBody,
+  UpdateUserDtoParams,
+} from './dto/update-user.interface';
 
 @Controller({ path: 'admin', version: '1' })
 export class AdminController {
@@ -45,9 +50,18 @@ export class AdminController {
   }
 
   @Delete('/user')
+  @Roles(Role.ADMIN)
   @UseGuards(AuthGuard, RoleGuard)
   async deleteUser(@Query('username') username: DeleteUserDto) {
-    
     return await this.adminService.deleteUser(username);
+  }
+
+  @Patch('/user')
+  @UseGuards(AuthGuard, RoleGuard)
+  async updateUser(
+    @Query('username') username: UpdateUserDtoParams,
+    @Body() body: UpdateUserDtoBody,
+  ) {
+    return await this.adminService.updateUser(username,body);
   }
 }

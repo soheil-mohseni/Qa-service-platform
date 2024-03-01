@@ -5,7 +5,10 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { ErrorMessages } from 'src/share/common/constants/errors.constant';
 import { encryptString } from 'src/share/common/utils';
-import { UserList, UserListResponse } from 'src/domain/admin/interface/user-list.interface';
+import {
+  UserList,
+  UserListResponse,
+} from 'src/domain/admin/interface/user-list.interface';
 import { DeleteUser } from 'src/domain/admin/interface/delete-user.interface';
 
 @Injectable()
@@ -38,16 +41,19 @@ export class UserRepository extends PostgresRepository<User> {
   async listOfUser(): Promise<UserList[]> {
     const users = await this.findAll();
     const usernameList = users.map((data) => {
-      return { username: data.username, group: (data?.group?.name) ?? null   };
+      return { username: data.username, group: data?.group?.name ?? null };
     });
     return usernameList;
   }
 
+  async deleteUserByUserName(username: string): Promise<DeleteUser> {
+    const result = await this.deleteByfield('username', username);
 
-  async deleteUserByUserName(username:string): Promise<DeleteUser> {
-    
-    const result = await this.deleteByfield('username',username);
+    return { affected: result.affected };
+  }
 
+  async updateUserByUserName(username: string, newData): Promise<DeleteUser> {
+    const result = await this.updateByfield('username', username, newData);
     return { affected: result.affected };
   }
 }
