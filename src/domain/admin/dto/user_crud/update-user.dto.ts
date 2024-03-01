@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsObject, IsString, isObject } from 'class-validator';
 
 export class UpdateUserDtoParams {
   @IsString()
@@ -11,4 +11,9 @@ export class UpdateUserDtoBody {
 
   @IsString()
   password?: string;
+
+  @IsObject()
+  group?: {
+    name: string
+  } 
 }

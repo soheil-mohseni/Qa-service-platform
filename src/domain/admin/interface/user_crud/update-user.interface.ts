@@ -7,7 +7,7 @@ export interface UpdateUserRequest {
     newData: {
         username?: string
         password?: string
-        group:{
+        group?:{
             name: string
         }
     }
