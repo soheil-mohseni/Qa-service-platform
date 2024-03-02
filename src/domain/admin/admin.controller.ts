@@ -36,8 +36,24 @@ import { DeleteSectionDto } from 'src/modules/section/dto/delete-section.dto';
 import { TopicService } from 'src/modules/topic/topic.service';
 import { CreateTopicDto } from 'src/modules/topic/dto/create-topic.dto';
 import { ListTopicDto } from 'src/modules/topic/dto/topic-list.dto';
-import { UpdateTopicBodyDto, UpdateTopicDtoBodyParams } from 'src/modules/topic/dto/update-topic.dto';
+import {
+  UpdateTopicBodyDto,
+  UpdateTopicDtoBodyParams,
+} from 'src/modules/topic/dto/update-topic.dto';
 import { DeleteTopicDto } from 'src/modules/topic/dto/delete-topic.dto';
+import { CreateQuestionDto } from 'src/modules/qa/dto/question/create-question.dto';
+import { QuestionService } from 'src/modules/qa/question.service';
+import { QuestionListDto } from 'src/modules/qa/dto/question/question-list.dto';
+import {
+  UpdateQuestionBodyDto,
+  UpdateQuestionDtoBodyParams,
+} from 'src/modules/qa/dto/question/update-question.dto';
+
+import { DeleteQuestionDto } from 'src/modules/qa/dto/question/delete-question.dto';
+import { CreateAnswerDto } from 'src/modules/qa/dto/answer/create-answer.dto';
+import { AnswerService } from 'src/modules/qa/answer.service';
+import { UpdateAnswerBodyDto, UpdateAnswerDtoBodyParams } from 'src/modules/qa/dto/answer/update-topic.dto';
+import { DeleteAnswerDto } from 'src/modules/qa/dto/answer/delete-question.dto';
 
 @Controller({ path: 'admin', version: '1' })
 export class AdminController {
@@ -45,6 +61,8 @@ export class AdminController {
     private readonly adminService: AdminService,
     private readonly sectionService: SectionService,
     private readonly topicService: TopicService,
+    private readonly questionService: QuestionService,
+    private readonly answerService: AnswerService,
   ) {}
 
   @Post('/create/admin')
@@ -183,4 +201,71 @@ export class AdminController {
   async deleteTopic(@Query('name') name: DeleteTopicDto) {
     return await this.topicService.deleteTopic(name);
   }
+
+  /////////// QUESTION crud //////////
+
+  @Post('/question/create')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async createQuestion(@Body() body: CreateQuestionDto) {
+    return await this.questionService.createQuestion(body);
+  }
+
+  @Get('/question/list')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async questionList(@Query('sort') sort: QuestionListDto) {
+    return await this.questionService.questionList(sort);
+  }
+
+  @Get('/question')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async findAnswerOfQuestion() {
+    return await this.questionService.findAnswerOfAllQuestion();
+  }
+
+  @Patch('/question')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async updateQuestion(
+    @Query('title') title: UpdateQuestionDtoBodyParams,
+    @Body() body: UpdateQuestionBodyDto,
+  ) {
+    return await this.questionService.updateQuestion(title, body);
+  }
+
+  @Delete('/question')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async deleteQuestion(@Query('title') title: DeleteQuestionDto) {
+    return await this.questionService.deleteQuestion(title);
+  }
+
+  /////////// ANSWER crud //////////
+
+  @Post('/answer/create')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async createAnswer(@Body() body: CreateAnswerDto) {
+    return await this.answerService.createAnswer(body);
+  }
+
+  @Patch('/answer')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async updateAnswer(
+    @Query('value') value: UpdateAnswerDtoBodyParams,
+    @Body() body: UpdateAnswerBodyDto,
+  ) {
+    return await this.answerService.updateAnswer(value, body);
+  }
+
+  @Delete('/answer')
+  @Roles(Role.ADMIN)
+  @UseGuards(AuthGuard, RoleGuard)
+  async deleteAnswer(@Query('value') value: DeleteAnswerDto) {
+    return await this.answerService.deleteAnswer(value);
+  }
+
 }

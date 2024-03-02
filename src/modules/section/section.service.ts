@@ -7,6 +7,7 @@ import {
   SectionListResponse,
   SectionNameList,
 } from './interface/section-list.interface';
+import { Status } from 'src/share/common/enums/status.enums';
 
 @Injectable()
 export class SectionService {
@@ -15,7 +16,10 @@ export class SectionService {
   async createSection(
     body: CreateSectionDto,
   ): Promise<BaseResponse<CreateSectionResponse>> {
-    await this.sectionRepository.createSection({ name: body.name });
+    await this.sectionRepository.createSection({
+      name: body.name,
+      status: body?.status ?? Status.PUBLIC,
+    });
     return {
       success: true,
       data: {

@@ -10,6 +10,10 @@ export enum ErrorMessages {
     SECTION_EXISTS = "This SECTION already exists",
     SECTION_NOT_FOUND = "Section is invalid",
     TOPICEXISTS = "This TOPIC already exists",
+    TOPIC_NOT_FOUND = "TOPIC is invalid",
+    QUESTION_EXISTS = "This QUESTION already exists",
+    QUESTION_NOT_FOUND = "QUESTION is invalid",
+    ANSWER_EXISTS = "This ANSWER already exists",
 
     NAME_EXISTS = "This name already exists" ,
     NOT_FOUND = "Nothing found by data",

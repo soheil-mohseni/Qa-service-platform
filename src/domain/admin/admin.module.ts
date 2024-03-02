@@ -16,6 +16,9 @@ import { Question } from 'src/modules/qa/repository/question.entity';
 import { Answer } from 'src/modules/qa/repository/asnwer.entity';
 import { TopicModule } from 'src/modules/topic/topic.module';
 import { TopicRepository } from 'src/modules/topic/repository/topic.repository';
+import { QaModule } from 'src/modules/qa/qa.module';
+import { AnswerRepository } from 'src/modules/qa/repository/answer.repository';
+import { QuestionRepository } from 'src/modules/qa/repository/question.repository';
 
 @Module({
   imports: [
@@ -23,6 +26,7 @@ import { TopicRepository } from 'src/modules/topic/repository/topic.repository';
     JwtModule,
     SectionModule,
     TopicModule,
+    QaModule,
   ],
   controllers: [AdminController],
   providers: [
@@ -32,6 +36,8 @@ import { TopicRepository } from 'src/modules/topic/repository/topic.repository';
     GroupRepository,
     SectionRepository,
     TopicRepository,
+    QuestionRepository,
+    AnswerRepository,
   ],
   exports: [AdminService],
 })

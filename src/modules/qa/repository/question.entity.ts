@@ -14,15 +14,15 @@ export class Question extends ParentEntity {
   @Transform(({ value }) => value.trim())
   title: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true ,default: 0})
   @IsNumber()
   view: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true,default: 0 })
   @IsNumber()
   like: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true,default: 0 })
   @IsNumber()
   dislike: number;
 

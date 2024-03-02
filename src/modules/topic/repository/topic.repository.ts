@@ -43,6 +43,11 @@ export class TopicRepository extends PostgresRepository<Topic> {
     }
   }
 
+  async findTopic(field, value): Promise<Topic> {
+    const section = await this.findOne(field, value);    
+    return section;
+  }
+
   async listOfTopic(sort: Sort): Promise<TopicNameList[]> {
     const topics = await this._repo
       .createQueryBuilder('topic')
@@ -50,9 +55,8 @@ export class TopicRepository extends PostgresRepository<Topic> {
       .orderBy('section.name', sort)
       .addOrderBy('topic.name', 'ASC')
       .getMany();
-      
-      const topicNameList = topics.map((data) => {
-      console.log(data);
+
+    const topicNameList = topics.map((data) => {
       return { name: data.name, section: data.section.name };
     });
     return topicNameList;

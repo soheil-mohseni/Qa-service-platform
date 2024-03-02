@@ -14,11 +14,11 @@ export class Answer extends ParentEntity {
   value: string;
 
 
-  @Column({nullable: true })
+  @Column({nullable: true ,default: 0})
   @IsNumber()
   like: number;
 
-  @Column({nullable: true })
+  @Column({nullable: true,default: 0 })
   @IsNumber()
   dislike: number;
 
