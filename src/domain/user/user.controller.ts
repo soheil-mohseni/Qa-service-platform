@@ -14,6 +14,9 @@ import { ViewIncrementsDto } from 'src/modules/qa/dto/question/view-increments.d
 import { LikeIncrementsDto } from 'src/modules/qa/dto/answer/like-increments.dto';
 import { DislikeIncrementsDto } from 'src/modules/qa/dto/answer/dislike-increments.dto';
 import { AnswerService } from 'src/modules/qa/answer.service';
+import { SectionService } from 'src/modules/section/section.service';
+import { TopicService } from 'src/modules/topic/topic.service';
+import { ListTopicDto } from 'src/modules/topic/dto/topic-list.dto';
 
 @Controller({ path: 'user', version: '1' })
 export class UserController {
@@ -21,6 +24,9 @@ export class UserController {
     private readonly userService: UserService,
     private readonly questionService: QuestionService,
     private readonly answerService: AnswerService,
+    private readonly sectionService: SectionService,
+    private readonly topicService: TopicService,
+
 
   ) {}
   /////////// QUESTION  //////////
@@ -76,5 +82,24 @@ export class UserController {
     return await this.answerService.dislikeIncrements(value);
   }
 
-  ////////
+  /////////// SECTION /////////
+
+  @Get('/section/list')
+  @Roles(Role.ADMIN,Role.USER)
+  @UseGuards(AuthGuard, RoleGuard)
+  async sectionList() {
+    return await this.sectionService.sectionList();
+  }
+
+  /////////// TOPIC /////////
+
+  @Get('/topic/list')
+  @Roles(Role.ADMIN,Role.USER)
+  @UseGuards(AuthGuard, RoleGuard)
+  async topicList(@Query('sort') sort: ListTopicDto) {
+    return await this.topicService.topicList(sort);
+  }
+
+
+
 }

@@ -13,6 +13,8 @@ import { TopicRepository } from 'src/modules/topic/repository/topic.repository';
 import { Topic } from 'src/modules/topic/repository/topic.entity';
 import { Section } from 'src/modules/section/repository/section.entity';
 import { SectionRepository } from 'src/modules/section/repository/section.repository';
+import { SectionService } from 'src/modules/section/section.service';
+import { TopicService } from 'src/modules/topic/topic.service';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { SectionRepository } from 'src/modules/section/repository/section.reposi
     AnswerRepository,
     TopicRepository,
     SectionRepository,
+    SectionService,
+    TopicService
   ],
 })
 export class UserModule {}
